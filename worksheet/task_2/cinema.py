@@ -22,10 +22,11 @@ def customer_tickets(conn, customer_id):
     cursor.execute("""
         SELECT films.title, screenings.screen, tickets.price
         FROM tickets
-        INNER JOIN screenings ON tickets.screening_id = screenings.screening_id
-        INNER JOIN films ON screenings.film_id=films.film_id
+        JOIN screenings ON tickets.screening_id = screenings.screening_id
+        JOIN films ON screenings.film_id = films.film_id
+        WHERE tickets.customer_id = ?
         ORDER BY films.title ASC
-    """)
+    """, (customer_id,))
 
     return cursor.fetchall()
 
